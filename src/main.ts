@@ -1,4 +1,6 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/main.styl'
+// import 'bootstrap/js/dist/modal'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

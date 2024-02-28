@@ -30,7 +30,7 @@ module.exports = {
         }],
         "vue/max-attributes-per-line": ["error", {
             "singleline": {
-                "max": 1
+                "max": 5
             },
             "multiline": {
                 "max": 1
@@ -94,6 +94,7 @@ module.exports = {
         "vue/component-definition-name-casing": ["error", "PascalCase"],
         "vue/no-dupe-keys": ["error", {
             "groups": []
-        }]
+        }],
+        'vue/multi-word-component-names': 0,
     }
 }
