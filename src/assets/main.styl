@@ -1,1 +1,48 @@
-@import 'base.styl';
+@import 'base.styl'
+
+@font-face
+  font-family "SF Pro"
+  src local("F Pro"),
+    url("./fonts/SFProText-Regular.ttf") format("truetype")
+
+*
+  font-family "SF Pro"
+
+html
+  background-color $site_background
+
+body
+  background-color transparent
+// Настройка ссылок
+a
+  text-decoration unset
+  user-select none
+  color $colors.link
+
+// Настройка заголовков
+h1
+h2
+h3
+h4
+h5
+h6
+  font-weight 600 !important
+  padding 0 !important
+  margin 0 !important
+  line-height 100% !important
+  letter-spacing 0.36px !important
+  pointer-events none
+  user-select none
+
+h3
+  font-size 34px !important
+
+// Настройка span
+span
+  display block
+  position relative
+
+// Настройка секции
+section
+  width 100%
+  padding 20px 0

@@ -10,13 +10,16 @@ module.exports = {
         },
     ],
     rules: {
-        "stylus/declaration-colon": "never",
-        "stylus/pythonic": "always",
-        "stylus/selector-list-comma": "never",
-        "stylus/semicolon": "never",
-        "stylus/single-line-comment": "always",
-        "import-notation": "string",
-        "media-feature-range-notation": "prefix", // "context" / "prefix"
-        "stylus/media-feature-colon": ["never"], // ["never"] => max-width ":" -> не используем! ["always"] -> используем
+        'stylus/declaration-colon': 'never',
+        'stylus/pythonic': 'always',
+        'stylus/selector-list-comma': 'never',
+        'stylus/semicolon': 'never',
+        'stylus/single-line-comment': 'always',
+        'import-notation': 'string',
+        'media-feature-range-notation': 'prefix', // 'context' / 'prefix'
+        'stylus/media-feature-colon': ['never'], // ['never'] => max-width ":" -> не используем! ['always'] -> используем
+        'at-rule-no-unknown': null,
+        'property-no-unknown': null,
+        'font-family-no-missing-generic-family-keyword': false
     },
 };
