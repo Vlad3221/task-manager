@@ -16,6 +16,7 @@ module.exports = {
         'stylus/semicolon': 'never',
         'stylus/single-line-comment': 'always',
         'import-notation': 'string',
+        'color-function-notation': false,
         'media-feature-range-notation': 'prefix', // 'context' / 'prefix'
         'stylus/media-feature-colon': ['never'], // ['never'] => max-width ":" -> не используем! ['always'] -> используем
         'at-rule-no-unknown': null,

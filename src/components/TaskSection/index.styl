@@ -1,0 +1,38 @@
+.tab-content-projects-slider-card-header
+  padding 5px 0
+  font-weight bold
+  font-size 18px
+  display flex
+  align-items center
+  gap 10px
+
+  &__icon
+    &.orange
+      color orange
+
+    &.red
+      color red
+
+    &.blue
+      color blue
+
+    &.green
+      color green
+
+.tab-content-projects-slider-card-tasks
+  margin-top 15px
+  width 100%
+  height calc(100% - 50px)
+  background-color transparent
+  overflow auto
+
+  &::-webkit-scrollbar
+    width  2px
+
+  &::-webkit-scrollbar-thumb
+    background-color transparent
+    border-radius 12px
+    border-top 20px solid transparent
+
+  &:hover::-webkit-scrollbar-thumb
+    background-color grey
