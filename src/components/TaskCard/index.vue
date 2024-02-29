@@ -7,7 +7,8 @@
   </div>
   <div
       v-if="created == false"
-      class="tab-content-projects-slider-card-tasks__block tab-content-projects-slider-card-tasks-block">
+      class="tab-content-projects-slider-card-tasks__block tab-content-projects-slider-card-tasks-block"
+      v-bind="$attrs">
     <div
         class="tab-content-projects-slider-card-tasks-block__header tab-content-projects-slider-card-tasks-block-header">
       <span

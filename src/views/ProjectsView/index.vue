@@ -55,14 +55,17 @@
              tabindex="0">
           <div class="row tab-content__projects-slider tab-content-projects-slider">
             <task-section
-                v-for="sectionValue in taskSection"
+                v-for="sectionValue in section"
                 :key="sectionValue.dataId"
                 :icon="sectionValue.icon"
                 :color-icon="sectionValue.iconColor"
                 :title="sectionValue.sectionTitle"
+                @drop="onDrop($event, sectionValue.dataId)"
+                @dragover.prevent
+                @dragenter.prevent
             >
               <template
-                  v-for="task in sectionValue.dataItem.slice().reverse()"
+                  v-for="task in tasks.slice().reverse().filter((item) => item.sectionId === sectionValue.dataId)"
                   :key="task.id"
               >
                 <task-card
@@ -73,7 +76,9 @@
                     :time-development="task.timeDevelop"
                     :time-end="task.timeEnd"
                     :prioritet="task.prior"
-                    :status="task.status"
+                    :status="statusTask(task.sectionId)"
+                    draggable="true"
+                    @dragstart="startDrag($event, task)"
                 />
               </template>
             </task-section>
@@ -82,14 +87,17 @@
         <div id="table-tab-pane" class="tab-pane fade" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
           <div class="row tab-content__projects-slider tab-content-projects-slider">
             <task-section
-                v-for="sectionValue in taskSection"
+                v-for="sectionValue in section"
                 :key="sectionValue.dataId"
                 :icon="sectionValue.icon"
                 :color-icon="sectionValue.iconColor"
                 :title="sectionValue.sectionTitle"
+                @drop="onDrop($event, sectionValue.dataId)"
+                @dragover.prevent
+                @dragenter.prevent
             >
               <task-card
-                  v-for="task in sectionValue.dataItem.slice().reverse()"
+                  v-for="task in tasks.slice().reverse().filter((item) => item.sectionId === sectionValue.dataId)"
                   :key="task.id"
                   :task-title="task.title"
                   :developer="task.developer"
@@ -97,7 +105,9 @@
                   :time-development="task.timeDevelop"
                   :time-end="task.timeEnd"
                   :prioritet="task.prior"
-                  :status="task.status"
+                  :status="statusTask(task.sectionId)"
+                  draggable="true"
+                  @dragstart="startDrag($event, task)"
               />
             </task-section>
           </div>
@@ -111,6 +121,7 @@
 import BlockDefault from '../../components/BlockDefault/index.vue'
 import TaskCard from '../../components/TaskCard/index.vue'
 import TaskSection from '../../components/TaskSection/index.vue'
+import taskSection from "@/components/TaskSection/index.vue";
 
 export default {
   components: {
@@ -121,129 +132,149 @@ export default {
   data() {
     return {
       login: "Владислав Шалаев",
-      taskSection: [
+      section: [
         {
-          dataId: "1",
+          dataId: 1,
           icon: "avg_pace",
           iconColor: "orange",
-          sectionTitle: "ожидают подтверждения",
-          dataItem: [
-            {
-              sectionId: 1,
-              id: 1,
-              title: "Разработка функций для таблиц и задач",
-              developer: "Владислав Шалаев",
-              owner: "Администратор",
-              timeDevelop: "10 ч.",
-              timeEnd: "01.03.2024",
-              prior: 10,
-              status: "Ожидание"
-            },
-            {
-              sectionId: 1,
-              id: 2,
-              title: "Функция создания таска",
-              developer: "Владислав Шалаев",
-              owner: "Администратор",
-              timeDevelop: "2 ч.",
-              timeEnd: "01.03.2024",
-              prior: 2,
-              status: "Ожидание"
-            },
-            {
-              sectionId: 1,
-              id: 3,
-              title: "Функция удаления таска",
-              developer: "Владислав Шалаев",
-              owner: "Администратор",
-              timeDevelop: "2 ч.",
-              timeEnd: "01.03.2024",
-              prior: 2,
-              status: "Ожидание"
-            },
-            {
-              sectionId: 1,
-              id: 4,
-              title: "Функция редактирования таска",
-              developer: "Владислав Шалаев",
-              owner: "Администратор",
-              timeDevelop: "2 ч.",
-              timeEnd: "01.03.2024",
-              prior: 2,
-              status: "Ожидание"
-            },
-            {
-              sectionId: 1,
-              id: 5,
-              title: "Разработать привязку таска к таблицам",
-              developer: "Владислав Шалаев",
-              owner: "Администратор",
-              timeDevelop: "2 ч.",
-              timeEnd: "01.03.2024",
-              prior: 2,
-              status: "Ожидание"
-            },
-            {
-              sectionId: 1,
-              id: 7,
-              title: "Проверка на другого исполнителя",
-              developer: "Менеджер",
-              owner: "Администратор",
-              timeDevelop: "2 ч.",
-              timeEnd: "01.03.2024",
-              prior: 2,
-              status: "Ожидание"
-            }
-          ]
+          sectionTitle: "Ожидают подтверждения"
         },
         {
-          dataId: "2",
+          dataId: 2,
           icon: "timer_off",
           iconColor: "red",
-          sectionTitle: "Просроченные",
-          dataItem: []
+          sectionTitle: "Просроченные"
         },
         {
-          dataId: "3",
+          dataId: 3,
           icon: "pause_circle",
           iconColor: "orange",
-          sectionTitle: "Приостановлено",
-          dataItem: []
+          sectionTitle: "Приостановлено"
         },
         {
-          dataId: "4",
+          dataId: 4,
           icon: "ink_pen",
           iconColor: "blue",
-          sectionTitle: "В работе",
-          dataItem: [
-            {
-              sectionId: 1,
-              id: 6,
-              title: "Функция перемещения таска в другие столбцы",
-              developer: "Владислав Шалаев",
-              owner: "Администратор",
-              timeDevelop: "2 ч.",
-              timeEnd: "01.03.2024",
-              prior: 7,
-              status: "В работе"
-            }
-          ]
+          sectionTitle: "В работе"
         },
         {
-          dataId: "5",
+          dataId: 5,
           icon: "bug_report",
           iconColor: "orange",
-          sectionTitle: "Код ревью / Тестирование",
-          dataItem: []
+          sectionTitle: "Код ревью / Тестирование"
         },
         {
-          dataId: "6",
+          dataId: 6,
           icon: "event_available",
           iconColor: "green",
-          sectionTitle: "Готово",
-          dataItem: []
+          sectionTitle: "Готово"
+        }
+      ],
+      tasks: [
+        {
+          sectionId: 1,
+          id: 1,
+          title: "Разработка функций для таблиц и задач",
+          developer: "Владислав Шалаев",
+          owner: "Администратор",
+          timeDevelop: "10 ч.",
+          timeEnd: "01.03.2024",
+          prior: 10
+        },
+        {
+          sectionId: 1,
+          id: 2,
+          title: "Функция создания таска",
+          developer: "Владислав Шалаев",
+          owner: "Администратор",
+          timeDevelop: "2 ч.",
+          timeEnd: "01.03.2024",
+          prior: 2
+        },
+        {
+          sectionId: 1,
+          id: 3,
+          title: "Функция удаления таска",
+          developer: "Владислав Шалаев",
+          owner: "Администратор",
+          timeDevelop: "2 ч.",
+          timeEnd: "01.03.2024",
+          prior: 2
+        },
+        {
+          sectionId: 1,
+          id: 4,
+          title: "Функция редактирования таска",
+          developer: "Владислав Шалаев",
+          owner: "Администратор",
+          timeDevelop: "2 ч.",
+          timeEnd: "01.03.2024",
+          prior: 2
+        },
+        {
+          sectionId: 6,
+          id: 5,
+          title: "Разработать привязку таска к таблицам",
+          developer: "Владислав Шалаев",
+          owner: "Администратор",
+          timeDevelop: "2 ч.",
+          timeEnd: "01.03.2024",
+          prior: 2
+        },
+        {
+          sectionId: 6,
+          id: 6,
+          title: "Функция перемещения таска в другие столбцы",
+          developer: "Владислав Шалаев",
+          owner: "Администратор",
+          timeDevelop: "2 ч.",
+          timeEnd: "01.03.2024",
+          prior: 7
+        },
+        {
+          sectionId: 6,
+          id: 7,
+          title: "Проверка на другого исполнителя",
+          developer: "Менеджер",
+          owner: "Администратор",
+          timeDevelop: "2 ч.",
+          timeEnd: "01.03.2024",
+          prior: 2
         }
       ]
+    }
+  },
+  methods: {
+    startDrag(evt, item) {
+      evt.dataTransfer.dropEffect = 'move'
+      evt.dataTransfer.effectAllowed = 'move'
+      evt.dataTransfer.setData('itemID', item.id)
+    },
+
+    onDrop(evt, sectionId) {
+      const itemID = evt.dataTransfer.getData('itemID')
+      const item = this.tasks.find((item) => item.id == itemID)
+      item.sectionId = sectionId
+    },
+
+    statusTask(section) {
+      var status = 'Ожидание'
+
+      if (section == 1) {
+        status = 'Ожидание'
+      } else if (section == 2) {
+        status = 'Просрочено'
+      } else if (section == 3) {
+        status = 'Ожидание'
+      } else if (section == 4) {
+        status = 'В работе'
+      } else if (section == 5) {
+        status = 'Ожидание'
+      } else if (section == 6) {
+        status = 'Готово'
+      }
+
+      return status
     }
   }
 }
