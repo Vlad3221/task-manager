@@ -41,30 +41,6 @@
         </li>
       </ul>
       <div id="myTabContent" class="tab-content">
-        <div id="home-tab-pane"
-             class="tab-pane fade show active"
-             role="tabpanel"
-             aria-labelledby="home-tab"
-             tabindex="0">
-          <div class="row tab-content__projects-slider tab-content-projects-slider">
-            <task-section icon="avg_pace" color-icon="orange" title="ожидают подтверждения">
-              <task-card
-                  task-title="Создать таблицу в Task Manager"
-                  developer="Владислав Шалаев"
-                  owner="Павел Пучков"
-                  time-development="2 нед."
-                  time-end="20.03.2024"
-                  :prioritet="3"
-                  status="Обработка"
-              />
-            </task-section>
-            <task-section icon="timer_off" color-icon="red" title="Просроченные"></task-section>
-            <task-section icon="pause_circle" color-icon="orange" title="Приостановлено"></task-section>
-            <task-section icon="ink_pen" color-icon="blue" title="Делаю сейчас"></task-section>
-            <task-section icon="bug_report" color-icon="orange" title="Код ревью / Тестирование"></task-section>
-            <task-section icon="event_available" color-icon="green" title="Готово"></task-section>
-          </div>
-        </div>
         <div id="preparation-tab-pane" class="tab-pane fade" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="row tab-content__projects-slider tab-content-projects-slider">
             <task-section icon="avg_pace" color-icon="orange" title="Задачи Junior">
@@ -72,70 +48,58 @@
             </task-section>
           </div>
         </div>
+        <div id="home-tab-pane"
+             class="tab-pane fade show active"
+             role="tabpanel"
+             aria-labelledby="home-tab"
+             tabindex="0">
+          <div class="row tab-content__projects-slider tab-content-projects-slider">
+            <task-section
+                v-for="sectionValue in taskSection"
+                :key="sectionValue.dataId"
+                :icon="sectionValue.icon"
+                :color-icon="sectionValue.iconColor"
+                :title="sectionValue.sectionTitle"
+            >
+              <template
+                  v-for="task in sectionValue.dataItem.slice().reverse()"
+                  :key="task.id"
+              >
+                <task-card
+                    v-if="task.developer == login"
+                    :task-title="task.title"
+                    :developer="task.developer"
+                    :owner="task.owner"
+                    :time-development="task.timeDevelop"
+                    :time-end="task.timeEnd"
+                    :prioritet="task.prior"
+                    :status="task.status"
+                />
+              </template>
+            </task-section>
+          </div>
+        </div>
         <div id="table-tab-pane" class="tab-pane fade" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
           <div class="row tab-content__projects-slider tab-content-projects-slider">
-            <task-section icon="avg_pace" color-icon="orange" title="ожидают подтверждения">
+            <task-section
+                v-for="sectionValue in taskSection"
+                :key="sectionValue.dataId"
+                :icon="sectionValue.icon"
+                :color-icon="sectionValue.iconColor"
+                :title="sectionValue.sectionTitle"
+            >
               <task-card
-                  task-title="Дота 2"
-                  developer="Павел Пучков"
-                  owner="Владислав Шалаев"
-                  time-development="2 ч."
-                  time-end="29.03.2024"
-                  :prioritet="9"
-                  status="Обработка"
-              />
-              <task-card
-                  task-title="Дота 2"
-                  developer="Павел Пучков"
-                  owner="Владислав Шалаев"
-                  time-development="2 ч."
-                  time-end="29.03.2024"
-                  :prioritet="9"
-                  status="Обработка"
-              />
-              <task-card
-                  task-title="Дота 2"
-                  developer="Павел Пучков"
-                  owner="Владислав Шалаев"
-                  time-development="2 ч."
-                  time-end="29.03.2024"
-                  :prioritet="9"
-                  status="Обработка"
-              />
-              <task-card
-                  task-title="Дота 2"
-                  developer="Павел Пучков"
-                  owner="Владислав Шалаев"
-                  time-development="2 ч."
-                  time-end="29.03.2024"
-                  :prioritet="9"
-                  status="Обработка"
-              />
-              <task-card
-                  task-title="Создать таблицу в Task Manager"
-                  developer="Владислав Шалаев"
-                  owner="Павел Пучков"
-                  time-development="2 нед."
-                  time-end="20.03.2024"
-                  :prioritet="3"
-                  status="Обработка"
+                  v-for="task in sectionValue.dataItem.slice().reverse()"
+                  :key="task.id"
+                  :task-title="task.title"
+                  :developer="task.developer"
+                  :owner="task.owner"
+                  :time-development="task.timeDevelop"
+                  :time-end="task.timeEnd"
+                  :prioritet="task.prior"
+                  :status="task.status"
               />
             </task-section>
-            <task-section icon="timer_off" color-icon="red" title="Просроченные">
-              <task-card
-                  task-title="Дота 2"
-                  developer="Павел Пучков"
-                  owner="Владислав Шалаев"
-                  time-development="2 ч."
-                  time-end="29.03.2024"
-                  :prioritet="9"
-                  status="Обработка"
-              />
-            </task-section>
-            <task-section icon="pause_circle" color-icon="orange" title="Приостановлено"></task-section>
-            <task-section icon="ink_pen" color-icon="blue" title="Делаю сейчас"></task-section>
-            <task-section icon="bug_report" color-icon="orange" title="Код ревью / Тестирование"></task-section>
-            <task-section icon="event_available" color-icon="green" title="Готово"></task-section>
           </div>
         </div>
       </div>
@@ -143,10 +107,146 @@
   </block-default>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import BlockDefault from '../../components/BlockDefault/index.vue'
 import TaskCard from '../../components/TaskCard/index.vue'
 import TaskSection from '../../components/TaskSection/index.vue'
+
+export default {
+  components: {
+    BlockDefault,
+    TaskCard,
+    TaskSection
+  },
+  data() {
+    return {
+      login: "Владислав Шалаев",
+      taskSection: [
+        {
+          dataId: "1",
+          icon: "avg_pace",
+          iconColor: "orange",
+          sectionTitle: "ожидают подтверждения",
+          dataItem: [
+            {
+              sectionId: 1,
+              id: 1,
+              title: "Разработка функций для таблиц и задач",
+              developer: "Владислав Шалаев",
+              owner: "Администратор",
+              timeDevelop: "10 ч.",
+              timeEnd: "01.03.2024",
+              prior: 10,
+              status: "Ожидание"
+            },
+            {
+              sectionId: 1,
+              id: 2,
+              title: "Функция создания таска",
+              developer: "Владислав Шалаев",
+              owner: "Администратор",
+              timeDevelop: "2 ч.",
+              timeEnd: "01.03.2024",
+              prior: 2,
+              status: "Ожидание"
+            },
+            {
+              sectionId: 1,
+              id: 3,
+              title: "Функция удаления таска",
+              developer: "Владислав Шалаев",
+              owner: "Администратор",
+              timeDevelop: "2 ч.",
+              timeEnd: "01.03.2024",
+              prior: 2,
+              status: "Ожидание"
+            },
+            {
+              sectionId: 1,
+              id: 4,
+              title: "Функция редактирования таска",
+              developer: "Владислав Шалаев",
+              owner: "Администратор",
+              timeDevelop: "2 ч.",
+              timeEnd: "01.03.2024",
+              prior: 2,
+              status: "Ожидание"
+            },
+            {
+              sectionId: 1,
+              id: 5,
+              title: "Разработать привязку таска к таблицам",
+              developer: "Владислав Шалаев",
+              owner: "Администратор",
+              timeDevelop: "2 ч.",
+              timeEnd: "01.03.2024",
+              prior: 2,
+              status: "Ожидание"
+            },
+            {
+              sectionId: 1,
+              id: 7,
+              title: "Проверка на другого исполнителя",
+              developer: "Менеджер",
+              owner: "Администратор",
+              timeDevelop: "2 ч.",
+              timeEnd: "01.03.2024",
+              prior: 2,
+              status: "Ожидание"
+            }
+          ]
+        },
+        {
+          dataId: "2",
+          icon: "timer_off",
+          iconColor: "red",
+          sectionTitle: "Просроченные",
+          dataItem: []
+        },
+        {
+          dataId: "3",
+          icon: "pause_circle",
+          iconColor: "orange",
+          sectionTitle: "Приостановлено",
+          dataItem: []
+        },
+        {
+          dataId: "4",
+          icon: "ink_pen",
+          iconColor: "blue",
+          sectionTitle: "В работе",
+          dataItem: [
+            {
+              sectionId: 1,
+              id: 6,
+              title: "Функция перемещения таска в другие столбцы",
+              developer: "Владислав Шалаев",
+              owner: "Администратор",
+              timeDevelop: "2 ч.",
+              timeEnd: "01.03.2024",
+              prior: 7,
+              status: "В работе"
+            }
+          ]
+        },
+        {
+          dataId: "5",
+          icon: "bug_report",
+          iconColor: "orange",
+          sectionTitle: "Код ревью / Тестирование",
+          dataItem: []
+        },
+        {
+          dataId: "6",
+          icon: "event_available",
+          iconColor: "green",
+          sectionTitle: "Готово",
+          dataItem: []
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped src="./index.styl"></style>
