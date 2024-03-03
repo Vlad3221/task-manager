@@ -110,6 +110,11 @@
 </template>
 
 <script lang="ts">
+import { storeToRefs } from 'pinia'
+import { useTaskStore } from '@/stores/tasks'
+
+const store = useTaskStore()
+const { tasks } = storeToRefs(store)
 export default {
   props: {
     created: Boolean,
@@ -145,6 +150,21 @@ export default {
     },
 
     createTask() {
+      const timeStamp = Date.now()
+
+      const task = {
+        sectionId: 1,
+        id: timeStamp,
+        title: this.titleTask,
+        developer: this.developerTask,
+        owner: this.login,
+        timeDevelop: this.developerTimeTask,
+        timeEnd: this.timeTask,
+        prior: this.priorityTask
+      }
+
+      store.addTask(task)
+
       this.openCheck = false
       this.titleTask = ''
       this.developerTask = ''
