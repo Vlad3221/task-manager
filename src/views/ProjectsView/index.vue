@@ -43,7 +43,7 @@
       <div id="myTabContent" class="tab-content">
         <div id="preparation-tab-pane" class="tab-pane fade" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="row tab-content__projects-slider tab-content-projects-slider">
-            <task-section icon="avg_pace" color-icon="orange" title="Задачи Junior">
+            <task-section icon="avg_pace" color-icon="orange" title="Подготовка задач">
               <task-card :created="true"/>
             </task-section>
           </div>
@@ -118,10 +118,15 @@
 </template>
 
 <script lang="ts">
+import { storeToRefs } from 'pinia'
+import { useTaskStore } from '@/stores/tasks'
+
 import BlockDefault from '../../components/BlockDefault/index.vue'
 import TaskCard from '../../components/TaskCard/index.vue'
 import TaskSection from '../../components/TaskSection/index.vue'
-import taskSection from "@/components/TaskSection/index.vue";
+
+const store = useTaskStore()
+const { tasks } = storeToRefs(store)
 
 export default {
   components: {
@@ -132,6 +137,7 @@ export default {
   data() {
     return {
       login: "Владислав Шалаев",
+      tasks: tasks,
       section: [
         {
           dataId: 1,
@@ -169,78 +175,6 @@ export default {
           iconColor: "green",
           sectionTitle: "Готово"
         }
-      ],
-      tasks: [
-        {
-          sectionId: 1,
-          id: 1,
-          title: "Разработка функций для таблиц и задач",
-          developer: "Владислав Шалаев",
-          owner: "Администратор",
-          timeDevelop: "10 ч.",
-          timeEnd: "01.03.2024",
-          prior: 10
-        },
-        {
-          sectionId: 1,
-          id: 2,
-          title: "Функция создания таска",
-          developer: "Владислав Шалаев",
-          owner: "Администратор",
-          timeDevelop: "2 ч.",
-          timeEnd: "01.03.2024",
-          prior: 2
-        },
-        {
-          sectionId: 1,
-          id: 3,
-          title: "Функция удаления таска",
-          developer: "Владислав Шалаев",
-          owner: "Администратор",
-          timeDevelop: "2 ч.",
-          timeEnd: "01.03.2024",
-          prior: 2
-        },
-        {
-          sectionId: 1,
-          id: 4,
-          title: "Функция редактирования таска",
-          developer: "Владислав Шалаев",
-          owner: "Администратор",
-          timeDevelop: "2 ч.",
-          timeEnd: "01.03.2024",
-          prior: 2
-        },
-        {
-          sectionId: 6,
-          id: 5,
-          title: "Разработать привязку таска к таблицам",
-          developer: "Владислав Шалаев",
-          owner: "Администратор",
-          timeDevelop: "2 ч.",
-          timeEnd: "01.03.2024",
-          prior: 2
-        },
-        {
-          sectionId: 6,
-          id: 6,
-          title: "Функция перемещения таска в другие столбцы",
-          developer: "Владислав Шалаев",
-          owner: "Администратор",
-          timeDevelop: "2 ч.",
-          timeEnd: "01.03.2024",
-          prior: 7
-        },
-        {
-          sectionId: 6,
-          id: 7,
-          title: "Проверка на другого исполнителя",
-          developer: "Менеджер",
-          owner: "Администратор",
-          timeDevelop: "2 ч.",
-          timeEnd: "01.03.2024",
-          prior: 2
-        }
       ]
     }
   },
@@ -253,8 +187,7 @@ export default {
 
     onDrop(evt, sectionId) {
       const itemID = evt.dataTransfer.getData('itemID')
-      const item = this.tasks.find((item) => item.id == itemID)
-      item.sectionId = sectionId
+      store.updateTask(itemID, sectionId)
     },
 
     statusTask(section) {
