@@ -91,7 +91,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
             })
         },
         removeTask(index: number) {
-            this.tasks.splice(index, 1);
+            const ind = this.tasks.findIndex(val => val.id === index);
+            this.tasks.splice(ind, 1);
             this.persistToLocalStorage();
         },
         persistToLocalStorage() {

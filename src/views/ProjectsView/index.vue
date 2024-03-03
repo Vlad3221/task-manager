@@ -11,7 +11,8 @@
                   type="button"
                   role="tab"
                   aria-controls="preparation-tab-pane"
-                  aria-selected="false">
+                  aria-selected="false"
+                  @click="exitModal()">
             Подготовка задач
           </button>
         </li>
@@ -23,7 +24,8 @@
                   type="button"
                   role="tab"
                   aria-controls="home-tab-pane"
-                  aria-selected="true">
+                  aria-selected="true"
+                  @click="exitModal()">
             Мои задачи
           </button>
         </li>
@@ -35,7 +37,8 @@
                   type="button"
                   role="tab"
                   aria-controls="table-tab-pane"
-                  aria-selected="false">
+                  aria-selected="false"
+                  @click="exitModal()">
             Доска
           </button>
         </li>
@@ -44,7 +47,12 @@
         <div id="preparation-tab-pane" class="tab-pane fade" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
           <div class="row tab-content__projects-slider tab-content-projects-slider">
             <task-section icon="avg_pace" color-icon="orange" title="Подготовка задач">
-              <task-card :created="true"/>
+              <task-card :created="true" @click="openModalCreate()">
+                <task-settings
+                    :created="true"
+                    :login="login"
+                />
+              </task-card>
             </task-section>
           </div>
         </div>
@@ -75,11 +83,28 @@
                     :owner="task.owner"
                     :time-development="task.timeDevelop"
                     :time-end="task.timeEnd"
-                    :prioritet="task.prior"
+                    :rating="task.prior"
                     :status="statusTask(task.sectionId)"
                     draggable="true"
+                    :created="false"
+                    @click="openModalCheck(task.id)"
                     @dragstart="startDrag($event, task)"
-                />
+                >
+                  <task-settings
+                      :created="false"
+                      :task-check-title="taskCheckTitle"
+                      :owner="owner"
+                      :check-developer-task="checkDeveloperTask"
+                      :check-developer-time-task="checkDeveloperTimeTask"
+                      :check-time-task="checkTimeTask"
+                      :check-priority-task="checkPriorityTask"
+                  >
+                    <div class="buttons-modal">
+<!--                      <div class="buttons-modal__settings button-modal-settings" @click="exitCheckTask()">Сохранить изменения</div>-->
+                      <div class="buttons-modal__settings red button-modal-settings" @click="deleteTask(taskId)">Удалить</div>
+                    </div>
+                  </task-settings>
+                </task-card>
               </template>
             </task-section>
           </div>
@@ -96,19 +121,39 @@
                 @dragover.prevent
                 @dragenter.prevent
             >
-              <task-card
+              <template
                   v-for="task in tasks.slice().reverse().filter((item) => item.sectionId === sectionValue.dataId)"
                   :key="task.id"
-                  :task-title="task.title"
-                  :developer="task.developer"
-                  :owner="task.owner"
-                  :time-development="task.timeDevelop"
-                  :time-end="task.timeEnd"
-                  :prioritet="task.prior"
-                  :status="statusTask(task.sectionId)"
-                  draggable="true"
-                  @dragstart="startDrag($event, task)"
-              />
+              >
+                <task-card
+                    :task-title="task.title"
+                    :developer="task.developer"
+                    :owner="task.owner"
+                    :time-development="task.timeDevelop"
+                    :time-end="task.timeEnd"
+                    :rating="task.prior"
+                    :status="statusTask(task.sectionId)"
+                    draggable="true"
+                    :created="false"
+                    @click="openModalCheck(task.id)"
+                    @dragstart="startDrag($event, task)"
+                >
+                  <task-settings
+                      :created="false"
+                      :task-check-title="taskCheckTitle"
+                      :owner="owner"
+                      :check-developer-task="checkDeveloperTask"
+                      :check-developer-time-task="checkDeveloperTimeTask"
+                      :check-time-task="checkTimeTask"
+                      :check-priority-task="checkPriorityTask"
+                  >
+                    <div class="buttons-modal">
+                      <!--                      <div class="buttons-modal__settings button-modal-settings" @click="exitCheckTask()">Сохранить изменения</div>-->
+                      <div class="buttons-modal__settings red button-modal-settings" @click="deleteTask(taskId)">Удалить</div>
+                    </div>
+                  </task-settings>
+                </task-card>
+              </template>
             </task-section>
           </div>
         </div>
@@ -118,26 +163,37 @@
 </template>
 
 <script lang="ts">
-import { storeToRefs } from 'pinia'
-import { useTaskStore } from '@/stores/tasks'
+import BlockDefault from '@/components/BlockDefault/index.vue'
+import TaskSection from '@/components/TaskSection/index.vue'
+import TaskCard from '@/components/TaskCard/index.vue'
+import TaskSettings from '@/components/TaskSettings/index.vue'
 
-import BlockDefault from '../../components/BlockDefault/index.vue'
-import TaskCard from '../../components/TaskCard/index.vue'
-import TaskSection from '../../components/TaskSection/index.vue'
+import {storeToRefs} from 'pinia'
+import {useTaskStore} from '@/stores/tasks'
+import { useGlobalStore } from '@/stores/modal';
 
 const store = useTaskStore()
-const { tasks } = storeToRefs(store)
+const {tasks} = storeToRefs(store)
+const globalStore = useGlobalStore();
 
 export default {
   components: {
     BlockDefault,
     TaskCard,
-    TaskSection
+    TaskSection,
+    TaskSettings
   },
   data() {
     return {
       login: "Владислав Шалаев",
       tasks: tasks,
+      taskId: 0,
+      taskCheckTitle: '',
+      owner: '',
+      checkDeveloperTask: '',
+      checkDeveloperTimeTask: '',
+      checkTimeTask: '',
+      checkPriorityTask: '',
       section: [
         {
           dataId: 1,
@@ -208,6 +264,35 @@ export default {
       }
 
       return status
+    },
+
+    openModalCreate() {
+      globalStore.setIsOpenCreate(true);
+    },
+
+    openModalCheck(taskId) {
+      globalStore.setIsOpenCheck(true);
+      this.tasks.forEach(v => {
+        if (v.id === taskId) {
+          this.taskId = taskId
+          this.taskCheckTitle = v.title
+          this.owner = v.owner
+          this.checkDeveloperTask = v.developer
+          this.checkDeveloperTimeTask = v.timeDevelop
+          this.checkTimeTask = v.timeEnd
+          this.checkPriorityTask = v.prior
+        }
+      })
+    },
+
+    exitModal() {
+      globalStore.setIsOpenCreate(false)
+      globalStore.setIsOpenCheck(false)
+    },
+
+    deleteTask(taskId) {
+      store.removeTask(taskId)
+      globalStore.setIsOpenCheck(false)
     }
   }
 }
