@@ -35,8 +35,8 @@
         >
       </div>
       <hr/>
+      <span class="modal-settings-block__title">Описание: </span>
       <div class="modal-settings-block__line modal-settings-block-line">
-        <span class="modal-settings-block__title">Описание: </span>
         <textarea v-model="descriptionTask" class="modal-settings-block__input" rows="15" placeholder="-"></textarea>
       </div>
       <button class="button-create-task" @click="createTask()">Создать</button>
@@ -69,11 +69,16 @@
       </div>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Приоритет: </span>
-        <input v-model="checkPriorityTaskCheck" type="number" class="modal-settings-block__input" placeholder="-">
+        <input v-model="checkPriorityTaskCheck"
+               type="number"
+               max="10"
+               min="0"
+               class="modal-settings-block__input"
+               placeholder="-">
       </div>
       <hr/>
+      <span class="modal-settings-block__title">Описание: </span>
       <div class="modal-settings-block__line modal-settings-block-line">
-        <span class="modal-settings-block__title">Описание: </span>
         <textarea v-model="checkDescriptionTaskCheck"
                   class="modal-settings-block__input"
                   rows="15"
