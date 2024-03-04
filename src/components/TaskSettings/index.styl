@@ -1,12 +1,12 @@
 .task-created-block
   margin auto
-  bottom -70vh
-  left calc(100vh - 400px)
-  width 800px
-  height 73vh
+  bottom 0
+  right -100%
+  width 700px
+  height 100%
   background-color white
   position fixed
-  transition 0.3s
+  transition 2s
   padding 10px 20px 20px
   outline 1px solid #dee2e6
   z-index 5
@@ -16,8 +16,9 @@
     font-weight bold
 
   &.open
-    bottom 0
-    border-radius 20px 20px 0 0
+    right 0
+    border-radius 20px 0 0 20px
+    transition 0.5s
 
 .modal-settings-block
   width 100%
@@ -38,16 +39,23 @@
     width 100%
     padding 0 5px
     border unset
+    transition 0.3s
+    outline 1px solid white
+    cursor default
 
     &.disabled
       color #65676d
 
     &:focus
-      outline 1px solid gray
+      outline-color gray
+      cursor text
+
+    &:not(.disabled):hover
+      outline-color gray
 
   textarea
-    outline 1px solid #333
     resize none
+    padding 5px
 
 .button-create-task
   height 50px
