@@ -44,3 +44,26 @@ yarn build
 ```sh
 yarn lint
 ```
+
+# Release version 1.0
+```sh
+[EN]
+
+Release version 1.0:
+- Creation of tasks with the possibility of initial configuration
+- Delete any task
+- Moving tasks along the columns of development stages
+- Editing tasks with a simple, intuitive interface. possibilities for changing: 1) Task name, 2) Task executor, 3) Development time, 4) Delivery date, 5) priority
+
+The implementation of version 1.0 is based on saving in the user's local history
+
+[RU]
+
+Релиз версии 1.0:
+- Создание задач с возможностью изначальной настройки
+- Удаление любой задачи
+- Перемещение задач по столбикам стадий разработок
+- Редактирование тасков с простым понятным интерфейсом. возможности изменения: 1) Название задачи, 2) Исполнитель задачи, 3) Время разработки, 4) Дата сдачи, 5) приоритет
+
+Реализация версии 1.0 построена на сохранении в локальной истории пользователя
+```
