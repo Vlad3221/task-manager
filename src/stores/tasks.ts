@@ -13,7 +13,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 owner: "Администратор",
                 timeDevelop: "10 ч.",
                 timeEnd: "01.03.2024",
-                prior: 10
+                prior: 10,
+                description: "Описание задачи"
             },
             {
                 sectionId: 1,
@@ -23,7 +24,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 owner: "Администратор",
                 timeDevelop: "2 ч.",
                 timeEnd: "01.03.2024",
-                prior: 2
+                prior: 2,
+                description: "Описание задачи"
             },
             {
                 sectionId: 1,
@@ -33,7 +35,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 owner: "Администратор",
                 timeDevelop: "2 ч.",
                 timeEnd: "01.03.2024",
-                prior: 2
+                prior: 2,
+                description: "Описание задачи"
             },
             {
                 sectionId: 1,
@@ -43,7 +46,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 owner: "Администратор",
                 timeDevelop: "2 ч.",
                 timeEnd: "01.03.2024",
-                prior: 2
+                prior: 2,
+                description: "Описание задачи"
             },
             {
                 sectionId: 6,
@@ -53,7 +57,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 owner: "Администратор",
                 timeDevelop: "2 ч.",
                 timeEnd: "01.03.2024",
-                prior: 2
+                prior: 2,
+                description: "Описание задачи"
             },
             {
                 sectionId: 6,
@@ -63,7 +68,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 owner: "Администратор",
                 timeDevelop: "2 ч.",
                 timeEnd: "01.03.2024",
-                prior: 7
+                prior: 7,
+                description: "Описание задачи"
             },
             {
                 sectionId: 6,
@@ -73,7 +79,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 owner: "Администратор",
                 timeDevelop: "2 ч.",
                 timeEnd: "01.03.2024",
-                prior: 2
+                prior: 2,
+                description: "Описание задачи"
             }
         ] as any[]
     }),
@@ -82,10 +89,23 @@ export const useTaskStore = defineStore(STORE_NAME, {
             this.tasks.push(task);
             this.persistToLocalStorage();
         },
-        updateTask(itemId: number, sectionId: number) {
+        updateTaskSection(itemId: number, sectionId: number) {
             this.tasks.forEach(v => {
                 if (v.id == itemId) {
                     v.sectionId = sectionId
+                    this.persistToLocalStorage()
+                }
+            })
+        },
+        updateTaskInformation(itemId: number, title: string, developer: string, timeDevelop: string, timeEnd: string, prior: number, description: string) {
+            this.tasks.forEach(v => {
+                if (v.id == itemId) {
+                    v.title = title
+                    v.developer = developer
+                    v.timeDevelop = timeDevelop
+                    v.timeEnd = timeEnd
+                    v.prior = prior
+                    v.description = description
                     this.persistToLocalStorage()
                 }
             })

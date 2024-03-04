@@ -92,15 +92,22 @@
                 >
                   <task-settings
                       :created="false"
-                      :task-check-title="taskCheckTitle"
                       :owner="owner"
                       :check-developer-task="checkDeveloperTask"
                       :check-developer-time-task="checkDeveloperTimeTask"
                       :check-time-task="checkTimeTask"
                       :check-priority-task="checkPriorityTask"
+                      :task-check-title="taskCheckTitle"
+                      :check-description-task="checkDescriptionTask"
+                      @update:title="taskCheckTitle = $event"
+                      @update:developer="checkDeveloperTask = $event"
+                      @update:timeTask="checkDeveloperTimeTask = $event"
+                      @update:timeTaskEnd="checkTimeTask = $event"
+                      @update:priority="checkPriorityTask = $event"
+                      @update:description="checkDescriptionTask = $event"
                   >
                     <div class="buttons-modal">
-<!--                      <div class="buttons-modal__settings button-modal-settings" @click="exitCheckTask()">Сохранить изменения</div>-->
+                      <div class="buttons-modal__settings button-modal-settings" @click="refactorTask(taskId)">Сохранить изменения</div>
                       <div class="buttons-modal__settings red button-modal-settings" @click="deleteTask(taskId)">Удалить</div>
                     </div>
                   </task-settings>
@@ -146,9 +153,16 @@
                       :check-developer-time-task="checkDeveloperTimeTask"
                       :check-time-task="checkTimeTask"
                       :check-priority-task="checkPriorityTask"
+                      :check-description-task="checkDescriptionTask"
+                      @update:title="taskCheckTitle = $event"
+                      @update:developer="checkDeveloperTask = $event"
+                      @update:timeTask="checkDeveloperTimeTask = $event"
+                      @update:timeTaskEnd="checkTimeTask = $event"
+                      @update:priority="checkPriorityTask = $event"
+                      @update:description="checkDescriptionTask = $event"
                   >
                     <div class="buttons-modal">
-                      <!--                      <div class="buttons-modal__settings button-modal-settings" @click="exitCheckTask()">Сохранить изменения</div>-->
+                      <div class="buttons-modal__settings button-modal-settings" @click="refactorTask(taskId)">Сохранить изменения</div>
                       <div class="buttons-modal__settings red button-modal-settings" @click="deleteTask(taskId)">Удалить</div>
                     </div>
                   </task-settings>
@@ -193,7 +207,8 @@ export default {
       checkDeveloperTask: '',
       checkDeveloperTimeTask: '',
       checkTimeTask: '',
-      checkPriorityTask: '',
+      checkPriorityTask: 0,
+      checkDescriptionTask: '',
       section: [
         {
           dataId: 1,
@@ -243,7 +258,7 @@ export default {
 
     onDrop(evt, sectionId) {
       const itemID = evt.dataTransfer.getData('itemID')
-      store.updateTask(itemID, sectionId)
+      store.updateTaskSection(itemID, sectionId)
     },
 
     statusTask(section) {
@@ -281,6 +296,7 @@ export default {
           this.checkDeveloperTimeTask = v.timeDevelop
           this.checkTimeTask = v.timeEnd
           this.checkPriorityTask = v.prior
+          this.checkDescriptionTask = v.description
         }
       })
     },
@@ -293,6 +309,15 @@ export default {
     deleteTask(taskId) {
       store.removeTask(taskId)
       globalStore.setIsOpenCheck(false)
+    },
+
+    refactorTask(taskId) {
+      this.tasks.forEach(v => {
+        if (v.id === taskId) {
+          store.updateTaskInformation(v.id, this.taskCheckTitle, this.checkDeveloperTask, this.checkDeveloperTimeTask, this.checkTimeTask, this.checkPriorityTask, this.checkDescriptionTask)
+          globalStore.setIsOpenCheck(false)
+        }
+      })
     }
   }
 }

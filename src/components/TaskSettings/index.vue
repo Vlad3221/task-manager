@@ -49,7 +49,7 @@
     <div class="modal-settings-block">
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Наименование задачи: </span>
-        <input :value="taskCheckTitle" class="modal-settings-block__input" placeholder="-">
+        <input v-model="taskCheckTitleCheck" class="modal-settings-block__input" placeholder="-">
       </div>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Владелец: </span>
@@ -57,24 +57,24 @@
       </div>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Исполнитель: </span>
-        <input :value="checkDeveloperTask" class="modal-settings-block__input" placeholder="-">
+        <input v-model="checkDeveloperTaskCheck" class="modal-settings-block__input" placeholder="-">
       </div>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Время разработки: </span>
-        <input :value="checkDeveloperTimeTask" class="modal-settings-block__input" placeholder="-">
+        <input v-model="checkDeveloperTimeTaskCheck" class="modal-settings-block__input" placeholder="-">
       </div>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Дата сдачи: </span>
-        <input :value="checkTimeTask" class="modal-settings-block__input" placeholder="-">
+        <input v-model="checkTimeTaskCheck" class="modal-settings-block__input" placeholder="-">
       </div>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Приоритет: </span>
-        <input :value="checkPriorityTask" class="modal-settings-block__input" placeholder="-">
+        <input v-model="checkPriorityTaskCheck" type="number" class="modal-settings-block__input" placeholder="-">
       </div>
       <hr/>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Описание: </span>
-        <textarea value="checkDescriptionTask"
+        <textarea v-model="checkDescriptionTaskCheck"
                   class="modal-settings-block__input"
                   rows="15"
                   placeholder="-"
@@ -104,7 +104,8 @@ export default {
     checkDeveloperTask: String,
     checkDeveloperTimeTask: String,
     checkTimeTask: String,
-    checkPriorityTask: String
+    checkPriorityTask: Number,
+    checkDescriptionTask: String
   },
   data() {
     return {
@@ -115,7 +116,56 @@ export default {
       developerTimeTask: '',
       timeTask: '',
       priorityTask: 0,
-      descriptionTask: ''
+      descriptionTask: '',
+      taskCheckTitleCheck: this.taskCheckTitle,
+      checkDeveloperTaskCheck: this.checkDeveloperTask,
+      checkDeveloperTimeTaskCheck: this.checkDeveloperTimeTask,
+      checkTimeTaskCheck: this.checkTimeTask,
+      checkPriorityTaskCheck: this.checkPriorityTask,
+      checkDescriptionTaskCheck: this.checkDescriptionTask
+    }
+  },
+  watch: {
+    taskCheckTitle(newTitle) {
+      this.taskCheckTitleCheck = newTitle;
+    },
+    taskCheckTitleCheck(newTitle) {
+      this.$emit('update:title', newTitle);
+    },
+
+    checkDeveloperTask(newDeveloper) {
+      this.checkDeveloperTaskCheck = newDeveloper;
+    },
+    checkDeveloperTaskCheck(newDeveloper) {
+      this.$emit('update:developer', newDeveloper);
+    },
+
+    checkDeveloperTimeTask(newTimeTask) {
+      this.checkDeveloperTimeTaskCheck = newTimeTask;
+    },
+    checkDeveloperTimeTaskCheck(newTimeTask) {
+      this.$emit('update:timeTask', newTimeTask);
+    },
+
+    checkTimeTask(newTimeTaskEnd) {
+      this.checkTimeTaskCheck = newTimeTaskEnd;
+    },
+    checkTimeTaskCheck(newTimeTaskEnd) {
+      this.$emit('update:timeTaskEnd', newTimeTaskEnd);
+    },
+
+    checkPriorityTask(newPriority) {
+      this.checkPriorityTaskCheck = newPriority;
+    },
+    checkPriorityTaskCheck(newPriority) {
+      this.$emit('update:priority', newPriority);
+    },
+
+    checkDescriptionTask(newDescription) {
+      this.checkDescriptionTaskCheck = newDescription;
+    },
+    checkDescriptionTaskCheck(newDescription) {
+      this.$emit('update:description', newDescription);
     }
   },
   created() {
@@ -153,7 +203,8 @@ export default {
         owner: this.login,
         timeDevelop: this.developerTimeTask,
         timeEnd: this.timeTask,
-        prior: this.priorityTask
+        prior: this.priorityTask,
+        description: this.descriptionTask
       }
 
       store.addTask(task)
