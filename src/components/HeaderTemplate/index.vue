@@ -1,14 +1,17 @@
 <template>
   <header>
     <div class="top-navigation">
-      <div class="top-navigation__realtime top-navigation-realtime">
-        <span>{{ timeNow }}</span>
-      </div>
-      <div class="top-navigation__notifications top-navigation-notifications">
-        <span class="material-symbols-outlined">notifications</span>
-      </div>
+      <div class="top-navigation__site top-navigation-site"></div>
       <div class="top-navigation__user top-navigation-user">
-        <span class="material-symbols-outlined">person</span>
+        <div class="top-navigation-user__realtime top-navigation-user-realtime">
+          <span>{{ timeNow }}</span>
+        </div>
+        <div class="top-navigation-user__notifications top-navigation-user-notifications">
+          <span class="material-symbols-outlined">notifications</span>
+        </div>
+        <div class="top-navigation-user__profile top-navigation-user-profile">
+          <span class="material-symbols-outlined">person</span>
+        </div>
       </div>
     </div>
   </header>
