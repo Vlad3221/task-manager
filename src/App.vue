@@ -7,7 +7,11 @@
       </router-link>
       <router-link to="/projects">
         <span class="material-symbols-outlined">splitscreen</span>
-        Projects
+        Проекты
+      </router-link>
+      <router-link to="/info">
+        <span class="material-symbols-outlined">info</span>
+        Информация
       </router-link>
     </div>
     <div class="manager-block__content manager-block-content">

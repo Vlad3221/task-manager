@@ -1,0 +1,47 @@
+.informations
+  width 100%
+  display flex
+  flex-direction column
+  gap 55px
+  overflow hidden
+
+.news
+  overflow auto
+  overflow-x hidden
+  height calc(100vh - 317px)
+
+  &::-webkit-scrollbar
+    width 8px
+
+  &::-webkit-scrollbar-thumb
+    background-color #fd7b38
+    border-radius 12px
+    border-top 20px solid transparent
+
+.news-content
+  display flex
+  flex-direction column
+  gap 30px
+
+  &__block
+    display flex
+    flex-direction column
+    gap 25px
+    padding 25px 0
+
+.news-content-block
+  &-header
+    display flex
+
+    &__title
+      padding-right 10px !important
+
+  &__content
+    font-style italic
+    position relative
+    padding-left 25px
+
+    &::before
+      content '-'
+      position absolute
+      left 0

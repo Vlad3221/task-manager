@@ -32,6 +32,7 @@
                min="0"
                class="modal-settings-block__input"
                placeholder="-"
+               onkeypress="return false"
         >
       </div>
       <hr/>
@@ -74,7 +75,8 @@
                max="10"
                min="0"
                class="modal-settings-block__input"
-               placeholder="-">
+               placeholder="-"
+               onkeypress="return false">
       </div>
       <hr/>
       <span class="modal-settings-block__title">Описание: </span>
