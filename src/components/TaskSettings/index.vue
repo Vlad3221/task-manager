@@ -211,7 +211,8 @@ export default {
         timeDevelop: this.developerTimeTask,
         timeEnd: this.timeTask,
         prior: this.priorityTask,
-        description: this.descriptionTask
+        description: this.descriptionTask,
+        done: false
       }
 
       store.addTask(task)

@@ -15,6 +15,19 @@ style - стилизация
         <div class="news__content news-content">
           <div class="news-content__block news-content-block">
             <div class="news-content-block__header news-content-block-header">
+              <h4 class="news-content-block-header__title news-content-block-header-title">
+                Обновление сокращенных задач
+              </h4>
+              <version-control class="update" text="Update"/>
+              <version-control class="refactor" text="Refactor"/>
+            </div>
+            <span class="news-content-block__content news-content-block-content">добавили чекбокс отслеживания завершенных задач</span>
+            <span class="news-content-block__content news-content-block-content">Добавили сохранение состояния отслеживания в локальной истории</span>
+            <span class="news-content-block__content news-content-block-content">Изменили стилизацию сокращенных задач</span>
+            <span class="news-content-block__content news-content-block-content">Добавили стилизацию завершенных задач (отслеживание по checkbox)</span>
+          </div>
+          <div class="news-content__block news-content-block">
+            <div class="news-content-block__header news-content-block-header">
               <h4 class="news-content-block-header__title news-content-block-header-title">Добавили страницу
                 отслеживания нашего вклада в проект</h4>
               <version-control class="release" text="Release 1.1"/>
