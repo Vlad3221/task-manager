@@ -155,6 +155,7 @@
                     :status="statusTask(task.sectionId)"
                     draggable="true"
                     :created="false"
+                    :done-check="task.done"
                     @click="openModalCheck(task.id)"
                     @dragstart="startDrag($event, task)"
                 >
