@@ -99,6 +99,7 @@
                   <template v-slot:taskSettings>
                     <task-settings
                         :created="false"
+                        :task-check-id="taskId"
                         :owner="owner"
                         :check-developer-task="checkDeveloperTask"
                         :check-developer-time-task="checkDeveloperTimeTask"
@@ -106,17 +107,18 @@
                         :check-priority-task="checkPriorityTask"
                         :task-check-title="taskCheckTitle"
                         :check-description-task="checkDescriptionTask"
+                        :check-done-task="checkDoneTask"
                         @update:title="taskCheckTitle = $event"
                         @update:developer="checkDeveloperTask = $event"
                         @update:timeTask="checkDeveloperTimeTask = $event"
                         @update:timeTaskEnd="checkTimeTask = $event"
                         @update:priority="checkPriorityTask = $event"
                         @update:description="checkDescriptionTask = $event"
+                        @update:done="checkDoneTask = $event"
                     >
                       <div class="buttons-modal">
                         <div class="buttons-modal__settings button-modal-settings" @click="refactorTask(taskId)">
-                          Сохранить
-                          изменения
+                          Сохранить изменения
                         </div>
                         <div class="buttons-modal__settings red button-modal-settings" @click="deleteTask(taskId)">
                           Удалить
@@ -165,6 +167,7 @@
                   <template v-slot:taskSettings>
                     <task-settings
                         :created="false"
+                        :task-check-id="taskId"
                         :owner="owner"
                         :check-developer-task="checkDeveloperTask"
                         :check-developer-time-task="checkDeveloperTimeTask"
@@ -172,17 +175,18 @@
                         :check-priority-task="checkPriorityTask"
                         :task-check-title="taskCheckTitle"
                         :check-description-task="checkDescriptionTask"
+                        :check-done-task="checkDoneTask"
                         @update:title="taskCheckTitle = $event"
                         @update:developer="checkDeveloperTask = $event"
                         @update:timeTask="checkDeveloperTimeTask = $event"
                         @update:timeTaskEnd="checkTimeTask = $event"
                         @update:priority="checkPriorityTask = $event"
                         @update:description="checkDescriptionTask = $event"
+                        @update:done="checkDoneTask = $event"
                     >
                       <div class="buttons-modal">
                         <div class="buttons-modal__settings button-modal-settings" @click="refactorTask(taskId)">
-                          Сохранить
-                          изменения
+                          Сохранить изменения
                         </div>
                         <div class="buttons-modal__settings red button-modal-settings" @click="deleteTask(taskId)">
                           Удалить
@@ -236,6 +240,7 @@ export default {
       checkPriorityTask: 0,
       checkDescriptionTask: '',
       checkDoneTask: false,
+
       section: [
         {
           dataId: 1,
@@ -324,6 +329,7 @@ export default {
           this.checkTimeTask = v.timeEnd
           this.checkPriorityTask = v.prior
           this.checkDescriptionTask = v.description
+          this.checkDoneTask = v.done
         }
       })
     },

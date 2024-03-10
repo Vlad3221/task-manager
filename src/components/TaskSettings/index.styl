@@ -1,24 +1,75 @@
 .task-created-block
   margin auto
   bottom 0
-  right -100%
+  right -700px
   width 700px
   height 100%
   background-color white
   position fixed
-  transition 2s
+  transition 0.3s
   padding 10px 20px 20px
-  outline 1px solid #dee2e6
+  outline 1px solid #bfc6cb
   z-index 5
-
-  &__header
-    text-align center
-    font-weight bold
 
   &.open
     right 0
-    border-radius 20px 0 0 20px
-    transition 0.5s
+
+.task-created-block-header
+  gap 5px
+  width 100%
+  padding-top 15px
+  display flex
+  align-items center
+  justify-content space-between
+
+  & .status
+    &__done
+      display flex
+      align-items center
+      outline 1px solid grey
+      height max-content
+      border-radius 4px
+      padding 3px 6px
+      cursor pointer
+      transition 0.3s
+      font-size 14px
+
+      & .material-symbols-outlined
+        font-size 20px
+
+      &.done
+        color green
+        opacity 0.3
+
+  & .navigation
+    display flex
+    align-items center
+    gap 5px
+
+    &__button
+      width max-content
+      color #333
+      border-radius 4px
+      font-size 16px
+      cursor pointer
+      display flex
+      align-items center
+      padding 0 5px
+      transition 0.3s
+
+      &.disabled
+        opacity 0.3
+        cursor not-allowed
+
+        &:hover
+          color inherit
+
+      &:hover
+        color rgba(51, 51, 51, 30%)
+
+.content-task
+  height 90%
+  overflow auto
 
 .modal-settings-block
   width 100%
@@ -34,6 +85,56 @@
   &__title
     color #65676d
     min-width max-content
+    width 100%
+    max-width 200px
+
+  &__input
+    width 100%
+    padding 0 5px
+    border unset
+    transition 0.3s
+    outline 1px solid white
+    cursor default
+
+    &.title
+      font-size 24px
+      font-weight bold
+      padding-left 0
+      margin-bottom 15px
+      width 100%
+      word-wrap break-word
+      height max-content
+
+    &.disabled
+      color #65676d
+
+    &:focus
+      outline-color rgba(128, 128, 128, 20%)
+      cursor text
+
+    &:not(.disabled):hover
+      outline-color rgba(128, 128, 128, 20%)
+
+  &__add-subtask
+    width 100%
+    border none
+    outline none
+    background transparent
+    transition 0.3s
+    padding 5px 0
+
+    &:hover
+      background-color rgba(51, 51, 51, 3%)
+
+  textarea
+    resize none
+    padding 0
+    height 24px
+
+.modal-settings-block-subtask
+  display flex
+  align-items center
+  gap 10px
 
   &__input
     width 100%
@@ -47,15 +148,14 @@
       color #65676d
 
     &:focus
-      outline-color gray
+      outline-color rgba(128, 128, 128, 20%)
       cursor text
 
     &:not(.disabled):hover
-      outline-color gray
+      outline-color rgba(128, 128, 128, 20%)
 
-  textarea
-    resize none
-    padding 5px
+  &__done:checked ~ &__input
+    opacity 0.3
 
 .button-create-task
   height 50px
@@ -65,3 +165,7 @@
 
   &:hover
     opacity 0.65
+
+.title-create-textarea
+  padding-left 0
+  height max-content !important
