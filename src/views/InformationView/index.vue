@@ -16,6 +16,17 @@ style - стилизация
           <div class="news-content__block news-content-block">
             <div class="news-content-block__header news-content-block-header">
               <h4 class="news-content-block-header__title news-content-block-header-title">
+                Обновление настройки задач
+              </h4>
+              <version-control class="refactor" text="Refactor"/>
+              <version-control class="beta" text="Beta"/>
+            </div>
+            <span class="news-content-block__content news-content-block-content">Переработали стиль настройки задач</span>
+            <span class="news-content-block__content news-content-block-content">Добавили возможность создавать подзадачи</span>
+          </div>
+          <div class="news-content__block news-content-block">
+            <div class="news-content-block__header news-content-block-header">
+              <h4 class="news-content-block-header__title news-content-block-header-title">
                 Обновление сокращенных задач
               </h4>
               <version-control class="update" text="Update"/>
