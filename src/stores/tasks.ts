@@ -33,7 +33,8 @@ export const useTaskStore = defineStore(STORE_NAME, {
                 subtasks: [
                     {
                         id: 1,
-                        title: "Доработка функционала подзадач"
+                        title: "Доработка функционала подзадач",
+                        done: false
                     }
                 ]
             }
@@ -56,7 +57,7 @@ export const useTaskStore = defineStore(STORE_NAME, {
 
         updateTaskInformation(itemId: number, title: string, developer: string, timeDevelop: string, timeEnd: string, prior: number, description: string) {
             this.tasks.forEach(v => {
-                if (v.id == itemId) {
+                if (v.id === itemId) {
                     v.title = title
                     v.developer = developer
                     v.timeDevelop = timeDevelop
@@ -70,21 +71,20 @@ export const useTaskStore = defineStore(STORE_NAME, {
 
         addNewSubtask(itemId: number, subItem: any) {
             this.tasks.forEach(v => {
-                if (v.id == itemId) {
-                    const subtask = v.subtasks
-                    subtask.push(subItem);
+                if (v.id === itemId) {
+                    v.subtasks.push(subItem);
                     this.persistToLocalStorage()
                 }
             })
         },
 
-        updateSubtask(itemId: number, itemIdSubtask: number, title: string) {
+        updateSubtaskDone(itemId: number, itemIdSubtask: number, done: boolean) {
             this.tasks.forEach(v => {
                 if (v.id == itemId) {
                     const subtask = v.subtasks
-                    subtask.forEach(s => {
+                    subtask.forEach((s: any) => {
                         if (s.id == itemIdSubtask) {
-                            s.title = title
+                            s.done = done
                             this.persistToLocalStorage()
                         }
                     })

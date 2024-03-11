@@ -19,7 +19,11 @@
     <div class="modal-settings-block">
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Наименование задачи </span>
-        <textarea ref="textarea" v-model="titleTask" class="modal-settings-block__input title-create-textarea" maxlength='93' placeholder="-"/>
+        <textarea ref="textarea"
+                  v-model="titleTask"
+                  class="modal-settings-block__input title-create-textarea"
+                  maxlength='93'
+                  placeholder="-"/>
       </div>
       <div class="modal-settings-block__line modal-settings-block-line">
         <span class="modal-settings-block__title">Назначил </span>
@@ -108,7 +112,10 @@
     <div class="content-task">
       <div class="modal-settings-block">
         <div class="modal-settings-block__line modal-settings-block-line">
-          <textarea v-model="taskCheckTitleCheck" maxlength='93' class="modal-settings-block__input title" placeholder="-" />
+          <textarea v-model="taskCheckTitleCheck"
+                    maxlength='93'
+                    class="modal-settings-block__input title"
+                    placeholder="-"/>
         </div>
         <div class="modal-settings-block__line modal-settings-block-line">
           <span class="modal-settings-block__title">Исполнитель </span>
@@ -151,16 +158,29 @@
         />
         </div>
       </div>
-      <hr>
-      <div class="modal-settings-block">
-        <span class="modal-settings-block__title">Подзадачи </span>
+      <div class="modal-settings-block subtasks">
+        <span class="modal-settings-block__title modal-settings-block subtasks__title">Подзадачи </span>
         <template v-for="task in this.tasks.filter((item) => item.id === taskCheckId)" :key="task.id">
-          <div v-for="item in task.subtasks" :key="item.id" class="modal-settings-block__subtask modal-settings-block-subtask">
-            <input type="checkbox" class="modal-settings-block-subtask__done modal-settings-block-subtask-done" :checked="item.done">
-            <textarea v-model="item.title" class="modal-settings-block-subtask__input modal-settings-block-subtask-input" />
+          <div>
+            <div v-for="item in task.subtasks"
+                 :key="item.id"
+                 class="modal-settings-block__subtask modal-settings-block-subtask">
+              <input type="checkbox"
+                     class="modal-settings-block-subtask__done modal-settings-block-subtask-done"
+                     :checked="item.done"
+                     @click="toggleDoneSubtask(taskCheckId, item.id, !item.done)">
+              <textarea v-model="item.title"
+                        class="modal-settings-block-subtask__input modal-settings-block-subtask-input"/>
+            </div>
           </div>
         </template>
-        <button class="modal-settings-block__add-subtask modal-settings-block-add-subtask" @click="addSubtask(taskCheckId)">Добавить подзадачу</button>
+        <button class="modal-settings-block__add-subtask modal-settings-block-add-subtask"
+                @click="addSubtask(taskCheckId)">
+          <span class="material-symbols-outlined">
+            add_task
+          </span>
+          Добавить подзадачу
+        </button>
       </div>
       <slot/>
     </div>
@@ -175,6 +195,7 @@ import {storeToRefs} from "pinia";
 const store = useTaskStore()
 const globalStore = useGlobalStore()
 const {tasks} = storeToRefs(store)
+
 export default {
   props: {
     taskCheckId: Number,
@@ -279,7 +300,7 @@ export default {
     },
 
     subtaskTitle: function () {
-      store.updateSubtask(this.taskCheckId )
+      store.updateSubtask(this.taskCheckId)
     }
   },
   created() {
@@ -343,6 +364,10 @@ export default {
       }
 
       store.addNewSubtask(id, subtask)
+    },
+
+    toggleDoneSubtask(taskId, subtaskId, state) {
+      store.updateSubtaskDone(taskId, subtaskId, state)
     },
 
     toggleDoneTask() {
